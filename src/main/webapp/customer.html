@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Customer - Cyron's Laundry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        html,
+        body {
+            height: 100%;
+            background: #d4edff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            background: white;
+            border-radius: 40px;
+            padding: 24px 18px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .phone-frame::-webkit-scrollbar {
+            width: 3px;
+        }
+        .phone-frame::-webkit-scrollbar-thumb {
+            background: #1f6f8a;
+            border-radius: 10px;
+        }
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .top-bar .brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f2b3a;
+        }
+        .top-bar .brand i {
+            color: #1f6f8a;
+            margin-right: 6px;
+        }
+        .cart-icon {
+            background: #eef3f7;
+            border-radius: 30px;
+            padding: 6px 14px;
+            border: 1px solid #dce6ed;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #0f2b3a;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            position: relative;
+        }
+        .cart-icon:hover {
+            background: #dce6ed;
+        }
+        .cart-icon .badge {
+            background: #1f6f8a;
+            color: white;
+            border-radius: 30px;
+            padding: 0 8px;
+            font-size: 0.65rem;
+        }
+        .back-btn {
+            background: #eef3f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #0f2b3a;
+            width: fit-content;
+            transition: 0.2s;
+            margin-bottom: 10px;
+        }
+        .back-btn:hover {
+            background: #dce6ed;
+        }
+        h2 {
+            color: #0f2b3a;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+        .sub-title {
+            text-align: center;
+            color: #4f6f82;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+        .form-card {
+            background: #f8fbfd;
+            border-radius: 18px;
+            padding: 16px 14px;
+            border: 1px solid #e8eef2;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #0f2b3a;
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 50px;
+            border: 1px solid #dce6ed;
+            font-size: 0.9rem;
+            background: white;
+            transition: 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #1f6f8a;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(31, 111, 138, 0.1);
+        }
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .radio-group label {
+            font-weight: 400;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .radio-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #1f6f8a;
+            cursor: pointer;
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .checkbox-group label {
+            font-weight: 400;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #1f6f8a;
+            cursor: pointer;
+        }
+        .btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.25s;
+        }
+        .btn-secondary {
+            background: #1f6f8a;
+            color: white;
+            box-shadow: 0 4px 16px rgba(31, 111, 138, 0.2);
+        }
+        .btn-secondary:hover {
+            background: #185a72;
+            box-shadow: 0 8px 24px rgba(31, 111, 138, 0.25);
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .order-summary-box {
+            margin-top: 14px;
+            background: white;
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid #e8eef2;
+            display: none;
+        }
+        .order-summary-box.show {
+            display: block;
+        }
+        .order-summary-box h4 {
+            font-size: 0.9rem;
+            color: #0f2b3a;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eef3f7;
+            padding-bottom: 8px;
+        }
+        .order-summary-box .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.8rem;
+            color: #0f2b3a;
+        }
+        .order-summary-box .detail-row .label {
+            color: #4f6f82;
+        }
+        .order-summary-box .detail-row .value {
+            font-weight: 600;
+        }
+        .notification {
+            background: #f8fbfd;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border-left: 4px solid #1f6f8a;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: #0f2b3a;
+            display: none;
+        }
+        .notification.show {
+            display: block;
+        }
+        .notification.error {
+            border-left-color: #b8860b;
+            background: #fff8f0;
+        }
+        .notification.success {
+            border-left-color: #1a8c4a;
+            background: #f0fff5;
+        }
+        .footer-note {
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: #6f8fa2;
+            text-align: center;
+            border-top: 1px solid #eef3f7;
+            padding-top: 12px;
+            flex-shrink: 0;
+        }
+        .order-history-btn {
+            background: #eef3f7;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: #0f2b3a;
+            transition: 0.2s;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .order-history-btn:hover {
+            background: #dce6ed;
+        }
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .cart-modal.show {
+            display: flex;
+        }
+        .cart-modal .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 390px;
+            width: 100%;
+            padding: 24px 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .cart-modal .modal-content h3 {
+            font-size: 1.1rem;
+            color: #0f2b3a;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-modal .modal-content .close-btn {
+            background: #eef3f7;
+            border: none;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .cart-modal .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eef3f7;
+            font-size: 0.8rem;
+        }
+        .cart-modal .cart-item .status-badge {
+            padding: 2px 10px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: white;
+        }
+        .cart-modal .cart-item .status-badge.pending {
+            background: #b8860b;
+        }
+        .cart-modal .cart-item .status-badge.ongoing {
+            background: #1f6f8a;
+        }
+        .cart-modal .cart-item .status-badge.completed {
+            background: #1a8c4a;
+        }
+        .cart-modal .empty-cart {
+            text-align: center;
+            color: #6f8fa2;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 430px) {
+            .phone-frame {
+                max-height: 98vh;
+                padding: 18px 12px;
+                border-radius: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="brand"><i class="fas fa-tshirt"></i> Cyron's</div>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i> My Orders
+                <span class="badge" id="cartBadge">0</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+
+        <h2><i class="fas fa-calendar-plus"></i> Schedule Service</h2>
+        <p class="sub-title">Fill in the details below</p>
+
+        <div id="customerNotification" class="notification"></div>
+
+        <div class="form-card">
+            <!-- Service Type (Radio) -->
+            <div class="form-group">
+                <label><i class="fas fa-truck"></i> Service Type</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="serviceType" value="dropoff" checked /> Drop-off</label>
+                    <label><input type="radio" name="serviceType" value="pickup" /> Pick-up</label>
+                </div>
+            </div>
+
+            <!-- Services (Checkboxes) -->
+            <div class="form-group">
+                <label><i class="fas fa-list"></i> Select Services</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" class="service-chk" value="Wash" checked /> Wash</label>
+                    <label><input type="checkbox" class="service-chk" value="Dry" /> Dry</label>
+                    <label><input type="checkbox" class="service-chk" value="Fold" /> Fold</label>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" id="submitOrderBtn"><i class="fas fa-paper-plane"></i> Submit Order</button>
+
+            <!-- Order Summary (appears below) -->
+            <div id="orderSummaryBox" class="order-summary-box">
+                <h4><i class="fas fa-receipt"></i> Order Details</h4>
+                <div id="orderSummaryContent"></div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <i class="fas fa-info-circle"></i> Staff will update weight, price, and time
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="modal-content">
+            <h3>
+                <span><i class="fas fa-shopping-cart"></i> My Orders</span>
+                <button class="close-btn" id="closeCartBtn"><i class="fas fa-times"></i> Close</button>
+            </h3>
+            <div id="cartOrdersList">
+                <div class="empty-cart">No orders yet. Schedule your first laundry service!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================================
+        // SUBMIT ORDER
+        // =============================================================
+        document.getElementById('submitOrderBtn').addEventListener('click', function() {
+            const notif = document.getElementById('customerNotification');
+            const customerId = localStorage.getItem('current_customer_id');
+
+            if (!customerId) {
+                notif.className = 'notification show error';
+                notif.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please log in first.';
+                return;
+            }
+
+            const serviceType = document.querySelector('input[name="serviceType"]:checked').value;
+            const services = [];
+            document.querySelectorAll('.service-chk:checked').forEach(cb => services.push(cb.value));
+
+            if (services.length === 0) {
+                notif.className = 'notification show error';
+                notif.innerHTML = '<i class="fas fa-exclamation-circle"></i> Select at least one service.';
+                return;
+            }
+
+            // Get customer name
+            const users = JSON.parse(localStorage.getItem('laundry_users') || '[]');
+            const user = users.find(u => u.id == customerId);
+            const customerName = user ? user.firstName + ' ' + user.lastName : 'Customer';
+
+            // Create order
+            const orders = JSON.parse(localStorage.getItem('laundry_orders') || '[]');
+            const queueNumber = orders.filter(o => o.status === 'pending' || o.status === 'ongoing').length + 1;
+            const newOrder = {
+                id: Date.now(),
+                customerId: parseInt(customerId),
+                customerName: customerName,
+                services: services.join(', '),
+                serviceType: serviceType,
+                status: 'pending',
+                queueNumber: queueNumber,
+                createdAt: new Date().toLocaleString()
+            };
+            orders.push(newOrder);
+            localStorage.setItem('laundry_orders', JSON.stringify(orders));
+
+            // Show order summary
+            const summaryBox = document.getElementById('orderSummaryBox');
+            const summaryContent = document.getElementById('orderSummaryContent');
+            summaryContent.innerHTML = `
+                <div class="detail-row"><span class="label">Queue #</span><span class="value">${queueNumber}</span></div>
+                <div class="detail-row"><span class="label">Customer</span><span class="value">${customerName}</span></div>
+                <div class="detail-row"><span class="label">Service Type</span><span class="value">${serviceType === 'dropoff' ? 'Drop-off' : 'Pick-up'}</span></div>
+                <div class="detail-row"><span class="label">Services</span><span class="value">${services.join(' + ')}</span></div>
+                <div class="detail-row"><span class="label">Status</span><span class="value" style="color:#b8860b;">Pending</span></div>
+                <div class="detail-row"><span class="label">Submitted</span><span class="value">${new Date().toLocaleString()}</span></div>
+            `;
+            summaryBox.classList.add('show');
+
+            notif.className = 'notification show success';
+            notif.innerHTML = '<i class="fas fa-check-circle"></i> Order submitted! Queue #' + queueNumber;
+
+            // Update cart badge
+            updateCartBadge();
+
+            // Clear checkboxes (keep Wash checked)
+            document.querySelectorAll('.service-chk').forEach(cb => cb.checked = false);
+            document.querySelector('.service-chk[value="Wash"]').checked = true;
+        });
+
+        // =============================================================
+        // CART / ORDER HISTORY
+        // =============================================================
+        function updateCartBadge() {
+            const orders = JSON.parse(localStorage.getItem('laundry_orders') || '[]');
+            const customerId = localStorage.getItem('current_customer_id');
+            const userOrders = customerId ? orders.filter(o => o.customerId == customerId) : [];
+            document.getElementById('cartBadge').textContent = userOrders.length;
+        }
+
+        function renderCartOrders() {
+            const orders = JSON.parse(localStorage.getItem('laundry_orders') || '[]');
+            const customerId = localStorage.getItem('current_customer_id');
+            const list = document.getElementById('cartOrdersList');
+
+            if (!customerId) {
+                list.innerHTML = '<div class="empty-cart">Please log in to view your orders.</div>';
+                return;
+            }
+
+            const userOrders = orders.filter(o => o.customerId == customerId);
+            if (userOrders.length === 0) {
+                list.innerHTML = '<div class="empty-cart">No orders yet. Schedule your first laundry service!</div>';
+                return;
+            }
+
+            let html = '';
+            userOrders.forEach(o => {
+                const statusClass = o.status === 'pending' ? 'pending' : o.status === 'ongoing' ? 'ongoing' : 'completed';
+                html += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>#${o.queueNumber}</strong> — ${o.services}
+                            <br /><small style="color:#4f6f82;">${o.serviceType === 'dropoff' ? 'Drop-off' : 'Pick-up'} · ${o.createdAt}</small>
+                        </div>
+                        <span class="status-badge ${statusClass}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        document.getElementById('cartIcon').addEventListener('click', function() {
+            renderCartOrders();
+            document.getElementById('cartModal').classList.add('show');
+        });
+
+        document.getElementById('closeCartBtn').addEventListener('click', function() {
+            document.getElementById('cartModal').classList.remove('show');
+        });
+
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
+        // =============================================================
+        // INIT
+        // =============================================================
+        updateCartBadge();
+
+        // Load customer name if logged in
+        const customerId = localStorage.getItem('current_customer_id');
+        if (customerId) {
+            const users = JSON.parse(localStorage.getItem('laundry_users') || '[]');
+            const user = users.find(u => u.id == customerId);
+            if (user) {
+                document.querySelector('.brand').textContent = '👋 ' + user.firstName;
+            }
+        }
+    </script>
+
+</body>
+</html>
